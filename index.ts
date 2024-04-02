@@ -52,7 +52,19 @@ docstring-code-format = true
 `
 const requirementsTxt = "ruff"
 
-await $`cd ${projectName} && uv venv && echo "${pyprojectToml}" > pyproject.toml && echo "${requirementsTxt}" > requirements.txt`
+const vscodeSettings = `{
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  }
+}`
+
+const vscodeExtensions = `{
+  "recommendations": ["charliermarsh.ruff", "ms-python.vscode-pylance", "ms-python.python", "ms-python.debugpy", "tamasfe.even-better-toml"],
+  "unwantedRecommendations": ["ms-python.black-formatter", "ms-python.pylint"]
+}`
+
+await $`cd ${projectName} && uv venv && echo "${pyprojectToml}" > pyproject.toml && echo "${requirementsTxt}" > requirements.txt && mkdir .vscode && echo "${vscodeSettings}" > .vscode/settings.json && echo "${vscodeExtensions}" > .vscode/extensions.json`
 
 console.log("Now activate the venv with:")
 console.log("  source venv/bin/activate")
